@@ -14,8 +14,11 @@ def prepare_roidb(imdb):
     sizes = [PIL.Image.open(imdb.image_path_at(i)).size
              for i in range(imdb.num_images)]
     roidb = imdb.roidb
-    for i in range(len(imdb.image_index)):
+#change to this to fix out of list ordre
+#    for i in range(len(imdb.image_index)):
+    for i in range(len(roidb)):
         roidb[i]['image'] = imdb.image_path_at(i)
+
         roidb[i]['width'] = sizes[i][0]
         roidb[i]['height'] = sizes[i][1]
         # need gt_overlaps as a dense array for argmax

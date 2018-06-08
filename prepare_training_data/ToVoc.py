@@ -123,8 +123,12 @@ if __name__ == '__main__':
             img_file = os.path.join(_imagedir, stem + '.jpg')
 
             print(img_file)
-            img = cv2.imread(img_file)
-            img_size = img.shape
+            try:
+                img = cv2.imread(img_file)
+                img_size = img.shape
+            except :
+                pass
+
 
             doc, objs = generate_xml(stem, lines, img_size, class_sets=class_sets, doncateothers=_doncateothers)
 

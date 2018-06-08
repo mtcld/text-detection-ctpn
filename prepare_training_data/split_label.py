@@ -3,8 +3,10 @@ import numpy as np
 import math
 import cv2 as cv
 
-path = '/media/D/code/OCR/text-detection-ctpn/data/mlt_english+chinese/image'
-gt_path = '/media/D/code/OCR/text-detection-ctpn/data/mlt_english+chinese/label'
+# path = '/home/dev2/ctpn/data/challenge/images/'
+path = '/home/dev2/ctpn/data/synth/images/'
+# gt_path = '/home/dev2/ctpn/data/challenge/gt/'
+gt_path = '/home/dev2/ctpn/data/synth/gt/'
 out_path = 're_image'
 if not os.path.exists(out_path):
     os.makedirs(out_path)
@@ -19,17 +21,24 @@ for file in files:
     gt_file = os.path.join(gt_path, 'gt_' + stem + '.txt')
     img_path = os.path.join(path, file)
     print(img_path)
-    img = cv.imread(img_path)
-    img_size = img.shape
+    try:
+        img = cv.imread(img_path)
+        img_size = img.shape
+    except:
+        pass
     im_size_min = np.min(img_size[0:2])
     im_size_max = np.max(img_size[0:2])
 
     im_scale = float(600) / float(im_size_min)
     if np.round(im_scale * im_size_max) > 1200:
         im_scale = float(1200) / float(im_size_max)
-    re_im = cv.resize(img, None, None, fx=im_scale, fy=im_scale, interpolation=cv.INTER_LINEAR)
-    re_size = re_im.shape
-    cv.imwrite(os.path.join(out_path, stem) + '.jpg', re_im)
+    try:
+        re_im = cv.resize(img, None, None, fx=im_scale, fy=im_scale, interpolation=cv.INTER_LINEAR)
+        re_size = re_im.shape
+        cv.imwrite(os.path.join(out_path, stem) + '.jpg', re_im)
+
+    except:
+        pass
 
     with open(gt_file, 'r') as f:
         lines = f.readlines()
